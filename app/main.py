@@ -66,10 +66,9 @@ async def bulk(
     request: PackStart = Body(...),
     task_service: TaskService = Depends(get_task_service)
 ):
+    task_sigs = [work.s(q) for q in request.qs]
     asyncio.create_task(
-        task_service.start_group(
-            tasks_sigs=[work.s(q) for q in request.qs]
-        )
+        task_service.start_group(tasks_sigs=task_sigs)
     )
     return {"status": "PENDING"}
 

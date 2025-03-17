@@ -1,3 +1,4 @@
+import asyncio
 from celery import Task, shared_task
 from app.services.service import Service
 
@@ -14,4 +15,4 @@ class ServiceTask(Task):
 
 @shared_task(base=ServiceTask, bind=True)
 def work(self, q: str):
-    return self.service.work(q)
+    return asyncio.run(self.service.work(q))

@@ -1,14 +1,14 @@
-import time
 import random
+import asyncio
 
 
 class Service:
     def __init__(self):
         pass
 
-    def work(self, q: str):
+    async def work(self, q: str):
         total = random.randint(0, 100_000)
-        time.sleep(random.randint(1, 5))
+        await asyncio.sleep(random.randint(1, 5))
         return {
             "total": total,
             "data": [
