@@ -18,7 +18,7 @@ services:
 
   celery:
     build: .
-    command: celery -A app.worker.worker.app worker -P gevent -c 100 --loglevel=warning --purge
+    command: celery -A app.worker.worker.app worker -P gevent -c 1000 -l INFO --purge
     ulimits:
       nproc: 4096
       nofile:
