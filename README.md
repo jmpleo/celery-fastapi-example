@@ -1,85 +1,110 @@
-## Async celery worker example
 
 
 ### GET: /start
 ```bash
-curl -X GET "http://localhost:8000/start?q=query"
+curl -X GET "http://localhost:8000/start?n=10"
 ```
 ```json
-{"task_id":"a22c1d86-b928-4c3e-bbf4-a1d6d9edc196"}
-```
-
-### GET: /task
-```bash
-curl -X GET "http://localhost:8000/task/a22c1d86-b928-4c3e-bbf4-a1d6d9edc196"
-```
-```json
-{"status":"PENDING"}
+{
+  "error": "",
+  "data": {
+    "task_id": "043bd852-8d13-4540-b67a-0143000fba13"
+  }
+}
 ```
 
 ### POST: /start
 ```bash
-curl -X POST "http://localhost:8000/start" -H "Content-Type: application/json" -d '{"qs": ["query1", "query2", "query3"]}'
-```
+curl -X POST "http://localhost:8000/start" -H "Content-Type: application/json" -d '{"ns": [10, 15, 20]}'  ```
 ```json
-{"status":"PENDING"}
+{
+  "error": "",
+  "data": {
+    "group_id": "30f02097-b50b-4af0-8fd2-76325ae3d71b"
+  }
+}
 ```
 
-### GET: /groups
+### GET: /task
 ```bash
-curl -X GET "http://localhost:8000/groups"
+curl -X GET "http://localhost:8000/task/043bd852-8d13-4540-b67a-0143000fba13"
 ```
 ```json
 {
-  "2ceb12ec-0a05-4adf-bdbb-42ac39dae539": {
-    "c918732d-0fe6-4c19-b927-28182d9e46e3": {
-      "status": "SUCCESS"
+  "error": "",
+  "data": {
+    "ready": true,
+    "result": [7,6,1,9,4,8,6,8,10,10]
+  }
+}
+```
+
+### GET: /task
+```bash
+curl -X GET "http://localhost:8000/task"
+```
+```json
+{
+  "error": "",
+  "data": {
+    "043bd852-8d13-4540-b67a-0143000fba13": {
+      "ready": true,
+      "result": null
     },
-    "e07bd4c7-a8d1-4b45-aff8-4aeb3d4b75d5": {
-      "status": "SUCCESS"
-    },
-    "9772f439-d035-4890-8b9e-387a6e078485": {
-      "status": "SUCCESS"
+    "b551108b-02bc-432c-ba21-430526e56464": {
+      "ready": true,
+      "result": null
     }
   }
 }
 ```
 
+### GET: /groups
+```bash
+curl -X GET "http://localhost:8000/group/30f02097-b50b-4af0-8fd2-76325ae3d71b"
+```
+```json
+{
+  "error": "",
+  "data": {
+    "ready": true,
+    "progress": 3,
+    "results": {
+      "6cbd2d15-d9b2-42c6-a882-731ab116dbce": [
+        10,9,5,0,7,8,6,4,2,8
+      ],
+      "8c266347-58e2-4130-a435-d32cab0eadb1": [
+        2,7,6,14,8,6,14,0,4,2,8,5,1,2,9
+      ],
+      "a6eeb23e-fe79-4c7d-a579-d9036285a0a4": [
+        6,2,12,12,13,0,16,10,4,14,19,4,3,14,4,1,10,10,7,15
+      ]
+    }
+  }
+}
+
+```
+
 ### GET: /group
 ```bash
-curl -X GET "http://localhost:8000/group/2ceb12ec-0a05-4adf-bdbb-42ac39dae539?expand=0"
-```
-```json
-{"progress":3}
-```
-
-```bash
-curl -X GET "http://localhost:8000/group/2ceb12ec-0a05-4adf-bdbb-42ac39dae539?expand=1"
+curl -X GET "http://localhost:8000/group"
 ```
 ```json
 {
-    "progress":3, "results": {
-        "c918732d-0fe6-4c19-b927-28182d9e46e3": {
-            // result here
-        }
+  "error": "",
+  "data": {
+    "1231bbbf-e7e5-487f-9713-abc4c176937f": {
+      "ready": true,
+      "progress": 3
+    },
+    "61e4b8e3-ff7b-4d0c-a124-da0ebb492333": {
+      "ready": true,
+      "progress": 3
+    },
+    "f4a89450-9d3f-4195-ab92-953db429c7f2": {
+      "ready": true,
+      "progress": 3
     }
-}
-```
-
-### GET: /tasks
-```bash
-curl -X GET "http://localhost:8000/tasks"
-```
-```json
-{
-  "c918732d-0fe6-4c19-b927-28182d9e46e3": {
-    "status": "SUCCESS"
-  },
-  "e07bd4c7-a8d1-4b45-aff8-4aeb3d4b75d5": {
-    "status": "SUCCESS"
-  },
-  "9772f439-d035-4890-8b9e-387a6e078485": {
-    "status": "SUCCESS"
   }
 }
 ```

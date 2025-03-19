@@ -5,11 +5,12 @@ name = "pypi"
 
 [packages]
 uvicorn = "*"
-celery = "*"
+celery = {extras = ["gevent"], version = "*"}
 python-dotenv = "*"
 fastapi = {extras = ["all"], version = "*"}
 pydantic = "*"
 redis = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.11"

@@ -1,18 +1,14 @@
 import random
-import asyncio
+import time
+import math
 
 
 class Service:
     def __init__(self):
         pass
 
-    async def work(self, q: str):
-        total = random.randint(0, 100_000)
-        await asyncio.sleep(random.randint(1, 5))
-        return {
-            "total": total,
-            "data": [
-                [f"data_{i}"]
-                for i in range(total)
-            ]
-        }
+    def work(self, n: int):
+        if n <= 1:
+            return []
+        time.sleep(random.randint(1, int(math.log(n))))
+        return [random.randint(0, n) for _ in range(0, n)]
