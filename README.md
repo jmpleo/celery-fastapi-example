@@ -1,6 +1,9 @@
-
+```bash
+docker compose up -d
+```
 
 ### GET: /start
+
 ```bash
 curl -X GET "http://localhost:8000/start?n=10"
 ```
@@ -15,7 +18,8 @@ curl -X GET "http://localhost:8000/start?n=10"
 
 ### POST: /start
 ```bash
-curl -X POST "http://localhost:8000/start" -H "Content-Type: application/json" -d '{"ns": [10, 15, 20]}'  ```
+curl -X POST "http://localhost:8000/start" -H "Content-Type: application/json" -d '{"ns": [10, 15, 20]}'
+```
 ```json
 {
   "error": "",
